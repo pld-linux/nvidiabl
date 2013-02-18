@@ -6,7 +6,7 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	1
+%define		rel	2
 %define		pname	nvidiabl
 Summary:	Linux driver for nVidia display back-lights
 Name:		%{pname}%{_alt_kernel}
