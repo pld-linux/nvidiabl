@@ -56,7 +56,7 @@ Sterownik dla Linuksa do nvidiabl.
 Ten pakiet zawiera moduł jądra Linuksa.
 
 %prep
-%setup -qn %{name}-%{version}
+%setup -qn %{pname}-%{version}
 
 %build
 %build_kernel_modules -m nvidiabl
