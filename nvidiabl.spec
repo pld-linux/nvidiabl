@@ -7,13 +7,14 @@
 %define		_enable_debug_packages	0
 
 %define		rel	1
+%define		pname	nvidiabl
 Summary:	Linux driver for nVidia display back-lights
-Name:		nvidiabl
+Name:		%{pname}%{_alt_kernel}
 Version:	0.81
 Release:	%{rel}
 License:	GPL v2+
 URL:		https://github.com/guillaumezin/nvidiabl
-Source0:	https://github.com/guillaumezin/nvidiabl/archive/v%{version}.tar.gz?/%{name}-%{version}.tgz
+Source0:	https://github.com/guillaumezin/nvidiabl/archive/v%{version}.tar.gz?/%{pname}-%{version}.tgz
 # Source0-md5:	f72d90c0fe34b36a0ff3b6d7034e99c4
 Group:		Base/Kernel
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
