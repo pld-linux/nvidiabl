@@ -96,8 +96,8 @@ Ten pakiet zawiera moduł jądra Linuksa.
 rm -rf $RPM_BUILD_ROOT
 %if %{with kernel}
 %install_kernel_modules -m nvidiabl -d misc
-install -d $RPM_BUILD_ROOT/etc/modprobe.d/%{_kernel_ver}
-cp -p %{SOURCE1} $RPM_BUILD_ROOT/etc/modprobe.d/%{_kernel_ver}/%{pname}.conf
+install -d $RPM_BUILD_ROOT/etc/modprobe.d
+cp -p %{SOURCE1} $RPM_BUILD_ROOT/etc/modprobe.d/%{modname}.conf
 %endif
 
 %if %{with dkms}
@@ -134,5 +134,5 @@ rm -rf $RPM_BUILD_ROOT
 %files -n kernel%{_alt_kernel}-video-nvidiabl
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}/misc/*.ko*
-%config(noreplace) %verify(not md5 mtime size) /etc/modprobe.d/%{_kernel_ver}/%{pname}.conf
+%config(noreplace) %verify(not md5 mtime size) /etc/modprobe.d/%{modname}.conf
 %endif
