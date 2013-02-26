@@ -18,6 +18,7 @@ License:	GPL v2+
 URL:		https://github.com/guillaumezin/nvidiabl
 Source0:	https://github.com/guillaumezin/nvidiabl/archive/v%{version}.tar.gz?/%{modname}-%{version}.tgz
 # Source0-md5:	f72d90c0fe34b36a0ff3b6d7034e99c4
+Source1:	modprobe.conf
 Patch0:		nvidiabl-dkmsconf.patch
 Group:		Base/Kernel
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
@@ -95,11 +96,13 @@ Ten pakiet zawiera moduł jądra Linuksa.
 rm -rf $RPM_BUILD_ROOT
 %if %{with kernel}
 %install_kernel_modules -m nvidiabl -d misc
+install -d $RPM_BUILD_ROOT/etc/modprobe.d/%{_kernel_ver}
+cp -p %{SOURCE1} $RPM_BUILD_ROOT/etc/modprobe.d/%{_kernel_ver}/%{pname}.conf
 %endif
 
 %if %{with dkms}
 install -d $RPM_BUILD_ROOT%{_usrsrc}/%{modname}-%{version}-%{rel}
-cp -a Makefile *.[ch] $RPM_BUILD_ROOT%{_usrsrc}/%{modname}-%{version}-%{rel}
+cp -p Makefile *.[ch] $RPM_BUILD_ROOT%{_usrsrc}/%{modname}-%{version}-%{rel}
 sed -e 's|@MODNAME@|%{modname}|g' -e 's|@MODVERSION@|%{version}-%{rel}|g' \
 	dkms.conf > $RPM_BUILD_ROOT%{_usrsrc}/%{modname}-%{version}-%{rel}/dkms.conf
 %endif
@@ -131,4 +134,5 @@ rm -rf $RPM_BUILD_ROOT
 %files -n kernel%{_alt_kernel}-video-nvidiabl
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}/misc/*.ko*
+%config(noreplace) %verify(not md5 mtime size) /etc/modprobe.d/%{_kernel_ver}/%{pname}.conf
 %endif
