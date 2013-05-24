@@ -8,7 +8,7 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	12
+%define		rel	13
 %define		modname	nvidiabl
 Summary:	Linux driver for nVidia display back-lights
 Name:		%{modname}%{_alt_kernel}
