@@ -1,8 +1,8 @@
 #
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
-%bcond_with	verbose		# verbose build (V=1)
-%bcond_with	dkms	# build dkms package
+%bcond_without	verbose		# verbose build (V=1)
+%bcond_without	dkms		# build dkms package
 
 %if "%{_alt_kernel}" != "%{nil}"
 %if 0%{?build_kernels:1}
@@ -30,9 +30,9 @@ Name:		%{pname}%{_alt_kernel}
 Version:	0.81
 Release:	%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL v2+
-URL:		https://github.com/guillaumezin/nvidiabl
 Source0:	https://github.com/guillaumezin/nvidiabl/archive/v%{version}.tar.gz?/%{pname}-%{version}.tgz
 # Source0-md5:	f72d90c0fe34b36a0ff3b6d7034e99c4
+URL:		https://github.com/guillaumezin/nvidiabl
 Source1:	modprobe.conf
 Patch0:		nvidiabl-dkmsconf.patch
 Group:		Base/Kernel
