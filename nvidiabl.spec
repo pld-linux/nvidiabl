@@ -23,15 +23,15 @@ exit 1
 %define		kpkg	%(echo %{_build_kernels} | tr , '\\n' | while read n ; do echo %%undefine alt_kernel ; [ -z "$n" ] || echo %%define alt_kernel $n ; echo %%kernel_pkg ; done)
 %define		bkpkg	%(echo %{_build_kernels} | tr , '\\n' | while read n ; do echo %%undefine alt_kernel ; [ -z "$n" ] || echo %%define alt_kernel $n ; echo %%build_kernel_pkg ; done)
 
-%define		rel	29
+%define		rel	1
 %define		pname	nvidiabl
 Summary:	Linux driver for nVidia display back-lights
 Name:		%{pname}%{_alt_kernel}
-Version:	0.81
+Version:	0.85
 Release:	%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL v2+
 Source0:	https://github.com/guillaumezin/nvidiabl/archive/v%{version}.tar.gz?/%{pname}-%{version}.tgz
-# Source0-md5:	f72d90c0fe34b36a0ff3b6d7034e99c4
+# Source0-md5:	bd2b9e9ad453b6bfbd8328a867f01d39
 URL:		https://github.com/guillaumezin/nvidiabl
 Source1:	modprobe.conf
 Patch0:		nvidiabl-dkmsconf.patch
