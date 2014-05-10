@@ -26,16 +26,17 @@ exit 1
 %define		rel	1
 %define		pname	nvidiabl
 Summary:	Linux driver for nVidia display back-lights
+Summary(pl.UTF-8):	Sterownik dla Linuksa do podświetlania wyświetlacza dla kart firmy nVidia
 Name:		%{pname}%{_alt_kernel}
 Version:	0.87
 Release:	%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL v2+
+Group:		Base/Kernel
 Source0:	https://github.com/guillaumezin/nvidiabl/archive/v%{version}.tar.gz?/%{pname}-%{version}.tgz
-# Source0-md5:	e9418d3e500172d79680e44ad0f85743
-URL:		https://github.com/guillaumezin/nvidiabl
 Source1:	modprobe.conf
 Patch0:		nvidiabl-dkmsconf.patch
-Group:		Base/Kernel
+# Source0-md5:	e9418d3e500172d79680e44ad0f85743
+URL:		https://github.com/guillaumezin/nvidiabl
 BuildRequires:	rpmbuild(macros) >= 1.678
 %{?with_dist_kernel:%{expand:%kbrs}}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -49,18 +50,28 @@ adjust the display backlight.
 On Apple machines this driver allows more fine-grained brightness
 adjustment than the (mbp_nvidia_bl) driver and is generally preferred.
 
+%description -l pl.UTF-8
+Ten sterownik steruje rejestrem "smartdimmer" obecnym we współczesnych
+mobilnych kartach graficznych firmy nVidia (takich jak architektury
+NV40, NV41, NV43, NV44, NV46, NV47, NV49, NV4B, C51, G84, G86, G92,
+G94, G96, GT200), służącym do regulacji podświetlenia wyświetlacza.
+
+Na komputerach firmy Apple ten sterownik pozwala na dokładniejsze
+ustawianie jasności niż sterownik mbp_nvidia_bl i ogólnie jest
+zalecany.
+
 %package -n dkms-%{pname}
 Summary:	DKMS-ready driver for nVidia display back-lights
+Summary(pl.UTF-8):	Sterownik zgodny z DKMS do podświetlania wyświetlacza dla kart firmy nVidia
 License:	GPL v2+
 Group:		Base/Kernel
-Requires(pre):	dkms
-Requires(post):	dkms
+Requires(pre,post):	dkms
 %if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
 %endif
 
 %description -n dkms-%{pname}
-This package contains a DKMS-ready driver for nvidia laptop display
+This package contains a DKMS-ready driver for nVidia laptop display
 back-lights.
 
 This driver drives the smartdimmer register found on modern mobile
@@ -72,10 +83,23 @@ On Apple machines this driver allows more fine-grained brightness
 adjustment than the mbp-nvidia-bl-dkms (mbp_nvidia_bl) driver and is
 generally preferred.
 
+%description -n dkms-%{pname} -l pl.UTF-8
+Ten pakiet zawiera zgodny z DKMS sterownik do podświetlania
+wyświetlacza laptopów z kartą graficzną firmy nVidia.
+
+Ten sterownik steruje rejestrem "smartdimmer" obecnym we współczesnych
+mobilnych kartach graficznych firmy nVidia (takich jak architektury
+NV40, NV41, NV43, NV44, NV46, NV47, NV49, NV4B, C51, G84, G86, G92,
+G94, G96, GT200), służącym do regulacji podświetlenia wyświetlacza.
+
+Na komputerach firmy Apple ten sterownik pozwala na dokładniejsze
+ustawianie jasności niż sterownik mbp_nvidia_bl i ogólnie jest
+zalecany.
+
 %define	kernel_pkg()\
 %package -n kernel%{_alt_kernel}-video-nvidiabl\
 Summary:	Linux driver for nVidia display back-lights\
-Summary(pl.UTF-8):	Sterownik dla Linuksa do nvidiabl\
+Summary(pl.UTF-8):	Sterownik dla Linuksa do podświetlania wyświetlacza dla kart firmy nVidia\
 Release:	%{rel}@%{_kernel_ver_str}\
 Group:		Base/Kernel\
 Requires(post,postun):	/sbin/depmod\
@@ -94,9 +118,14 @@ On Apple machines this driver allows more fine-grained brightness\
 adjustment than the (mbp_nvidia_bl) driver and is generally preferred.\
 \
 %description -n kernel%{_alt_kernel}-video-nvidiabl -l pl.UTF-8\
-Sterownik dla Linuksa do nvidiabl.\
+Ten sterownik steruje rejestrem "smartdimmer" obecnym we współczesnych\
+mobilnych kartach graficznych firmy nVidia (takich jak architektury\
+NV40, NV41, NV43, NV44, NV46, NV47, NV49, NV4B, C51, G84, G86, G92,\
+G94, G96, GT200), służącym do regulacji podświetlenia wyświetlacza.\
 \
-Ten pakiet zawiera moduł jądra Linuksa.\
+Na komputerach firmy Apple ten sterownik pozwala na dokładniejsze\
+ustawianie jasności niż sterownik mbp_nvidia_bl i ogólnie jest\
+zalecany.\
 \
 %files -n kernel%{_alt_kernel}-video-nvidiabl\
 %defattr(644,root,root,755)\
