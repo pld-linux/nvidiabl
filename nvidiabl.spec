@@ -1,6 +1,5 @@
 #
 # Conditional build:
-%bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_without	verbose		# verbose build (V=1)
 %bcond_without	dkms		# build dkms package
 
@@ -38,7 +37,7 @@ Patch0:		nvidiabl-dkmsconf.patch
 # Source0-md5:	e9418d3e500172d79680e44ad0f85743
 URL:		https://github.com/guillaumezin/nvidiabl
 BuildRequires:	rpmbuild(macros) >= 1.678
-%{?with_dist_kernel:%{expand:%kbrs}}
+%{expand:%kbrs}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -103,10 +102,8 @@ Summary(pl.UTF-8):	Sterownik dla Linuksa do podświetlania wyświetlacza dla kar
 Release:	%{rel}@%{_kernel_ver_str}\
 Group:		Base/Kernel\
 Requires(post,postun):	/sbin/depmod\
-%if %{with dist_kernel}\
 %requires_releq_kernel\
 Requires(postun):	%releq_kernel\
-%endif\
 \
 %description -n kernel%{_alt_kernel}-video-nvidiabl\
 This driver drives the smartdimmer register found on modern mobile\
