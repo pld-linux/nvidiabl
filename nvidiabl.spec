@@ -1,14 +1,14 @@
 #
 # Conditional build:
 %bcond_without	verbose		# verbose build (V=1)
-%bcond_without	dkms		# build dkms package
+%bcond_with	dkms		# build dkms package
 
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
 %define		_duplicate_files_terminate_build	0
 
-%define		rel	2
+%define		rel	3
 %define		pname	nvidiabl
 Summary:	Linux driver for nVidia display back-lights
 Summary(pl.UTF-8):	Sterownik dla Linuksa do podświetlania wyświetlacza dla kart firmy nVidia
