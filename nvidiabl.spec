@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	verbose		# verbose build (V=1)
+%bcond_without	kernel		# don't build kernel modules
 %bcond_without	userspace	# don't build userspace programs
 %bcond_without	dkms		# build dkms package
 
