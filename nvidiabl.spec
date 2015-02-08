@@ -5,6 +5,11 @@
 %bcond_without	userspace	# don't build userspace programs
 %bcond_without	dkms		# build dkms package
 
+%if 0%{?_pld_builder:1} && %{with kernel} && %{with userspace}
+%{error:kernel and userspace cannot be built at the same time on PLD builders}
+exit 1
+%endif
+
 %if %{without userspace}
 %undefine	with_dkms
 %endif
@@ -14,11 +19,11 @@
 
 %define		_duplicate_files_terminate_build	0
 
-%define		rel	3
+%define		rel	4
 %define		pname	nvidiabl
 Summary:	Linux driver for nVidia display back-lights
 Summary(pl.UTF-8):	Sterownik dla Linuksa do podświetlania wyświetlacza dla kart firmy nVidia
-Name:		%{pname}%{_alt_kernel}
+Name:		%{pname}%{?_pld_builder:%{?with_kernel:-kernel}}%{_alt_kernel}
 Version:	0.87
 Release:	%{rel}%{?_pld_builder:@%{_kernel_ver_str}}
 License:	GPL v2+
@@ -29,7 +34,7 @@ Patch0:		nvidiabl-dkmsconf.patch
 # Source0-md5:	e9418d3e500172d79680e44ad0f85743
 URL:		https://github.com/guillaumezin/nvidiabl
 BuildRequires:	rpmbuild(macros) >= 1.701
-%{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}
+%{?with_kernel:%{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -116,10 +121,12 @@ Na komputerach firmy Apple ten sterownik pozwala na dokładniejsze\
 ustawianie jasności niż sterownik mbp_nvidia_bl i ogólnie jest\
 zalecany.\
 \
+%if %{with kernel}\
 %files -n kernel%{_alt_kernel}-video-nvidiabl\
 %defattr(644,root,root,755)\
 /lib/modules/%{_kernel_ver}/misc/*.ko*\
 %config(noreplace) %verify(not md5 mtime size) /etc/modprobe.d/%{pname}.conf\
+%endif\
 \
 %post	-n kernel%{_alt_kernel}-video-nvidiabl\
 %depmod %{_kernel_ver}\
@@ -133,21 +140,23 @@ zalecany.\
 %install_kernel_modules -D installed -m nvidiabl -d misc\
 %{nil}
 
-%{expand:%create_kernel_packages}
+%{?with_kernel:%{expand:%create_kernel_packages}}
 
 %prep
 %setup -qn %{pname}-%{version}
 %patch0 -p1
 
 %build
-%{expand:%build_kernel_packages}
+%{?with_kernel:%{expand:%build_kernel_packages}}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/modprobe.d
 
+%if %{with kernel}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT/etc/modprobe.d/%{pname}.conf
 cp -a installed/* $RPM_BUILD_ROOT
+%endif
 
 %if %{with dkms}
 install -d $RPM_BUILD_ROOT%{_usrsrc}/%{pname}-%{version}-%{rel}
