@@ -19,7 +19,7 @@ exit 1
 
 %define		_duplicate_files_terminate_build	0
 
-%define		rel	5
+%define		rel	6
 %define		pname	nvidiabl
 Summary:	Linux driver for nVidia display back-lights
 Summary(pl.UTF-8):	Sterownik dla Linuksa do podświetlania wyświetlacza dla kart firmy nVidia
@@ -31,6 +31,7 @@ Group:		Base/Kernel
 Source0:	https://github.com/guillaumezin/nvidiabl/archive/v%{version}.tar.gz?/%{pname}-%{version}.tgz
 Source1:	modprobe.conf
 Patch0:		nvidiabl-dkmsconf.patch
+Patch1:		linux-4.0.patch
 # Source0-md5:	e9418d3e500172d79680e44ad0f85743
 URL:		https://github.com/guillaumezin/nvidiabl
 BuildRequires:	rpmbuild(macros) >= 1.701
@@ -145,6 +146,7 @@ zalecany.\
 %prep
 %setup -qn %{pname}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{?with_kernel:%{expand:%build_kernel_packages}}
