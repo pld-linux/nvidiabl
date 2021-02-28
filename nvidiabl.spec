@@ -63,9 +63,7 @@ Summary(pl.UTF-8):	Sterownik zgodny z DKMS do podświetlania wyświetlacza dla k
 License:	GPL v2+
 Group:		Base/Kernel
 Requires(pre,post):	dkms
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description -n dkms-%{pname}
 This package contains a DKMS-ready driver for nVidia laptop display
