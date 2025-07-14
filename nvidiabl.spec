@@ -143,8 +143,8 @@ zalecany.\
 
 %prep
 %setup -qn %{pname}-%{version}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 %build
 %{?with_kernel:%{expand:%build_kernel_packages}}
